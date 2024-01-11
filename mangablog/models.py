@@ -9,7 +9,7 @@ class PublishManager(models.Manager):
         return super().get_queryset()\
             .filter(status=Post.Status.PUBLISHED)
 
-        
+#class        
 class Post(models.Model):
     
     class Status(models.TextChoices):

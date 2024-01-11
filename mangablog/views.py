@@ -14,7 +14,7 @@ def post_list(request):
 def post_detail(request, id):
     
     """
-    #same method as get_object_or_404's
+    #same method as get_object_or_404
     try:
         post= Post.published.get(id = id)
         
