@@ -29,7 +29,7 @@ class Post(models.Model):
                               default = Status.DRAFT
                               )
     objects = models.Manager # The default manager
-    published = PublishManager() # Our custom manager
+    published = PublishManager() # Our custom manager jns
     
     
     class Meta:
