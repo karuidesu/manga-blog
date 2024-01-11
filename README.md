@@ -1,0 +1,1 @@
+** Creating a urls.py file for each application is the best way to make your applications reusable by other projects **
