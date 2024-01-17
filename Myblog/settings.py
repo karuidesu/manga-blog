@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     'mangablog'
 ]
 
+#Email server configuration
+EMAIL_HOST = 'smpt.gmail.com'
+EMAIL_HOST_USER = 'lucedia09@gmail.com'
+EMAIL_HOST_PASSWORD = 'mscj armm sfmk btzf'
+EMAIL_HOST_PORT = 587
+EMAIL_USE_TLS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
