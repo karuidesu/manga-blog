@@ -6,7 +6,7 @@ from .form import EmailPostForm
 from django.core.mail import send_mail
 
 # Create your views here.
-
+    
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     sent = False
@@ -74,3 +74,4 @@ def post_detail(request, year, month, day, post):
                   'blog/post/detail.html',
                   {'post': post}
                   )
+    
