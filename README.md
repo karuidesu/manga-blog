@@ -9,3 +9,5 @@
 - If your form data does not validate, cleaned_data will contain only the valid fields.
 
 - If you can’t use an SMTP server, you can tell Django to write emails to the console by adding the following setting to the settings.py file: EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+- By default, Django checks for the CSRF token in all POST requests. Remember to include the csrf_token tag in all forms that are submitted via POST.

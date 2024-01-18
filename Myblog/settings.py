@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ]
 
 #Email server configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smpt.gmail.com'
 EMAIL_HOST_USER = 'lucedia09@gmail.com'
 EMAIL_HOST_PASSWORD = 'mscj armm sfmk btzf'

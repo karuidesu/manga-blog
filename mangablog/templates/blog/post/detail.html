@@ -10,4 +10,8 @@
         </p>
 
         {{ post.body|linebreaks }}
+
+        <p>
+            <a href="{% url 'mangablog:post_share' post.id %}">Share this post</a>
+        </p>
     {% endblock %}
