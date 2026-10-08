@@ -1,13 +1,16 @@
-** Creating a urls.py file for each application is the best way to make your applications reusable by other projects **
+# MangaBlog 🎌
 
-- Always use the {% url %} template tag to build URLs in your templates instead of writing hardcoded URLs. This will make your URLs more maintainable
+Un petit projet fait pour le fun parce que j'adore les mangas (Naruto, One Piece, JJK, etc.) ! 
+C'est une plateforme de blogging communautaire ccomme "Reddit", exclusivement pensée pour les otakus et fans d'animes, pour débattre et partager.
 
-- Canonical URLs allow you to specify the URL for the master copy of a page. Django allows you to implement the get_absolute_url() method in your models to return the canonical URL for the object.
+## Architecture
 
-- Forms can reside anywhere in your Django project. The convention is to place them inside a forms.py file for each application.
+- **Backend** : apis développée avec Django (`/api`).
+- **Frontend** : interface en html css js (`/mangablog`). Pour lancer le site, il suffit d'ouvrir le fichier `index.html` !
 
-- If your form data does not validate, cleaned_data will contain only the valid fields.
+## Compte de Test
 
-- If you can’t use an SMTP server, you can tell Django to write emails to the console by adding the following setting to the settings.py file: EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+Pour tester la création, la modification et la suppression de posts, ainsi que les commentaires et les flammes 🔥, utilisez ce compte :
 
-- By default, Django checks for the CSRF token in all POST requests. Remember to include the csrf_token tag in all forms that are submitted via POST.
+- **Pseudo :** `Itachi`
+- **Mot de passe :** `password123`

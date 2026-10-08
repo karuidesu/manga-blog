@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaBlog - La Communauté Otaku</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <h1>Manga<span>Blog</span> <i class="fa-solid fa-dragon logo-icon"></i></h1>
+            </a>
+        </div>
+        <nav>
+            <ul id="navLinks">
+                <li><a href="index.html" class="active">Feed</a></li>
+                <li><a href="classements.html">Top Masterclass</a></li>
+                <li><a href="tendances.html">Débats</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <a href="dashboard.html" class="btn btn-icon" style="margin-right: 15px;"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+            <a href="login.html" class="btn btn-primary glow-on-hover" id="loginBtnNav">Connexion</a>
+            <button class="btn btn-primary" style="background:#ff1a1a; display:none; border:none; cursor:pointer;" id="logoutBtn" onclick="logout()">Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar left-sidebar">
+            <div class="card profile-card">
+                <div class="avatar avatar-pulse"><i class="fa-solid fa-user-ninja"></i></div>
+                <h3>Visiteur</h3>
+                <p class="text-muted">Niveau : Genin</p>
+                <div class="xp-bar-container">
+                    <div class="xp-bar"></div>
+                </div>
+            </div>
+            
+            <nav class="side-nav card">
+                <a href="tendances.html" class="nav-item"><i class="fa-solid fa-fire text-flame"></i> Tendances</a>
+                <a href="chapitres.html" class="nav-item"><i class="fa-solid fa-book-open text-primary"></i> Chapitres</a>
+                <a href="anime.html" class="nav-item"><i class="fa-solid fa-tv text-secondary"></i> Anime</a>
+                <a href="classements.html" class="nav-item"><i class="fa-solid fa-ranking-star text-gold"></i> Classements</a>
+            </nav>
+        </aside>
+
+        <section class="feed">
+            <div class="create-post card">
+                <div class="input-group">
+                    <div class="avatar-small"><i class="fa-solid fa-user-ninja"></i></div>
+                    <textarea id="postInput" placeholder="Lancer un débat de zinzin..." rows="2"></textarea>
+                </div>
+                <div class="post-actions">
+                    <input type="file" id="postImageInput" accept="image/*" style="display: none;">
+                    <button class="btn-icon" onclick="document.getElementById('postImageInput').click()"><i class="fa-solid fa-image"></i> Image</button>
+                    <button class="btn btn-primary" id="submitPostBtn">Publier <i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+                <div id="imagePreview" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; display: none;"></div>
+            </div>
+
+            <div id="postsContainer">
+                <div class="loading">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Chargement du chakra...
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <script src="js/main.js"></script>
+</body>
+</html>

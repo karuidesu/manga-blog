@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MangaBlog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <h1>Manga<span>Blog</span> <i class="fa-solid fa-dragon logo-icon"></i></h1>
+            </a>
+        </div>
+        <div class="user-menu">
+            <a href="index.html" class="btn btn-icon" style="margin-right: 15px;"><i class="fa-solid fa-arrow-left"></i> Retour au Feed</a>
+            <button class="btn btn-primary" style="background:#ff1a1a; border:none; cursor:pointer;" onclick="logout()">Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar left-sidebar">
+            <div class="card profile-card">
+                <div class="avatar avatar-pulse"><i class="fa-solid fa-user-ninja"></i></div>
+                <h3>Ton Profil (Goat)</h3>
+                <p class="text-muted">Niveau : Hokage</p>
+                <div class="xp-bar-container">
+                    <div class="xp-bar" style="width: 100%;"></div>
+                </div>
+            </div>
+            
+            <nav class="side-nav card">
+                <a href="dashboard.html" class="nav-item active"><i class="fa-solid fa-gauge text-primary"></i> Mes Posts</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Paramètres</a>
+            </nav>
+        </aside>
+
+        <section class="feed">
+            <h2 style="margin-bottom: 1.5rem; color: var(--secondary);">Gestion de mes Posts</h2>
+            <div id="myPostsContainer">
+                <div class="loading" style="text-align: center; padding: 2rem;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Chargement...
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="toastContainer" class="toast-container"></div>
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000/api';
+        
+        document.addEventListener('DOMContentLoaded', fetchMyPosts);
+
+        function logout() {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('username');
+            window.location.href = 'index.html';
+        }
+
+        async function fetchMyPosts() {
+            const container = document.getElementById('myPostsContainer');
+            const token = localStorage.getItem('auth_token');
+            const username = localStorage.getItem('username');
+            
+            if (!token) {
+                container.innerHTML = '<div style="text-align:center; padding: 2rem;">Connecte-toi pour voir tes posts.</div>';
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/posts/`, {
+                    headers: { 'Authorization': `Token ${token}` }
+                });
+                if (!res.ok) throw new Error("API error");
+                
+                const data = await res.json();
+                const myPosts = data.filter(p => p.author && p.author.username === username);
+                
+                container.innerHTML = '';
+                if (myPosts.length === 0) {
+                    container.innerHTML = '<div style="text-align:center; padding: 2rem;">Tu n\'as publié aucun post.</div>';
+                    return;
+                }
+
+                myPosts.forEach(post => {
+                    const date = new Date(post.created_at).toLocaleDateString('fr-FR');
+                    const el = document.createElement('div');
+                    el.className = 'post card';
+                    el.id = `post-${post.id}`;
+                    el.innerHTML = `
+                        <div class="post-header" style="justify-content: space-between;">
+                            <div style="display:flex; gap:1rem; align-items:center;">
+                                <div class="avatar-small"><i class="fa-solid fa-user"></i></div>
+                                <div>
+                                    <div class="post-author">${username}</div>
+                                    <div class="post-date">${date}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-icon" style="color: var(--secondary);" onclick="editPost(${post.id}, this)"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn btn-icon" style="color: #ff1a1a;" onclick="deletePost(${post.id})"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="post-content" id="content-${post.id}">
+                            ${post.title ? `<h4>${post.title}</h4>` : ''}
+                            <p>${post.content}</p>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            } catch (error) {
+                container.innerHTML = '<div style="text-align:center; padding: 2rem; color: red;">Erreur de connexion à l\'API.</div>';
+            }
+        }
+
+        async function editPost(id, btnElement) {
+            const contentDiv = document.getElementById(`content-${id}`);
+            const currentText = contentDiv.querySelector('p').innerText;
+            
+            // Transformer en champ de texte
+            contentDiv.innerHTML = `
+                <textarea id="edit-input-${id}" style="width:100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-main); font-family: var(--font-main); resize: vertical;">${currentText}</textarea>
+                <button class="btn btn-primary" style="margin-top: 10px; font-size: 0.8rem;" onclick="savePost(${id}, this)">Enregistrer</button>
+                <button class="btn btn-icon" style="margin-top: 10px; font-size: 0.8rem;" onclick="fetchMyPosts()">Annuler</button>
+            `;
+            btnElement.style.display = 'none'; // Cacher le bouton éditer pendant l'édition
+        }
+
+        async function savePost(id, btnElement) {
+            const newContent = document.getElementById(`edit-input-${id}`).value;
+            if(!newContent.trim()) return showToast("Le contenu ne peut pas être vide.", 'default', 'fa-exclamation');
+
+            const token = localStorage.getItem('auth_token');
+            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btnElement.disabled = true;
+
+            try {
+                const res = await fetch(`${API_BASE}/posts/${id}/`, {
+                    method: 'PATCH',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${token}` 
+                    },
+                    body: JSON.stringify({ content: newContent })
+                });
+
+                if (res.ok) {
+                    showToast("Post modifié avec succès !", 'success', 'fa-check');
+                    fetchMyPosts(); // Recharger les posts
+                } else {
+                    showToast("Erreur lors de la modification.", 'default', 'fa-times');
+                    btnElement.innerHTML = 'Enregistrer';
+                    btnElement.disabled = false;
+                }
+            } catch (err) {
+                showToast("Serveur injoignable.", 'default', 'fa-times');
+                btnElement.innerHTML = 'Enregistrer';
+                btnElement.disabled = false;
+            }
+        }
+
+        async function deletePost(id) {
+            if(!confirm('T\'es sûr de vouloir supprimer ce post ?')) return;
+
+            const token = localStorage.getItem('auth_token');
+            const post = document.getElementById('post-' + id);
+            
+            try {
+                const res = await fetch(`${API_BASE}/posts/${id}/`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Token ${token}` }
+                });
+                
+                if (res.ok || res.status === 204) {
+                    post.style.transform = 'scale(0.9)';
+                    post.style.opacity = '0';
+                    setTimeout(() => {
+                        post.remove();
+                        showToast("Le post a été anéanti.", 'success', 'fa-check');
+                        if (document.getElementById('myPostsContainer').children.length === 0) {
+                            document.getElementById('myPostsContainer').innerHTML = '<div style="text-align:center; padding: 2rem;">Tu n\'as publié aucun post.</div>';
+                        }
+                    }, 300);
+                } else {
+                    showToast("Erreur lors de la suppression.", 'default', 'fa-times');
+                }
+            } catch (err) {
+                showToast("Serveur injoignable.", 'default', 'fa-times');
+            }
+        }
+
+        function showToast(message, type = 'default', iconClass = 'fa-info-circle') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'success' ? 'toast-success' : ''}`;
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i><div>${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => { if(container.contains(toast)) container.removeChild(toast); }, 400);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

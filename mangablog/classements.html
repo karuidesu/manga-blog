@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classements - MangaBlog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <h1>Manga<span>Blog</span> <i class="fa-solid fa-dragon logo-icon"></i></h1>
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Feed</a></li>
+                <li><a href="classements.html" class="active">Top Masterclass</a></li>
+                <li><a href="tendances.html">Débats</a></li>
+            </ul>
+        </nav>
+        <div class="user-menu">
+            <a href="index.html" class="btn btn-icon"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar left-sidebar">
+            <nav class="side-nav card">
+                <a href="tendances.html" class="nav-item"><i class="fa-solid fa-fire text-flame"></i> Tendances</a>
+                <a href="chapitres.html" class="nav-item"><i class="fa-solid fa-book-open text-primary"></i> Chapitres</a>
+                <a href="anime.html" class="nav-item"><i class="fa-solid fa-tv text-secondary"></i> Anime</a>
+                <a href="classements.html" class="nav-item active" style="color:var(--gold)"><i class="fa-solid fa-ranking-star text-gold"></i> Classements</a>
+            </nav>
+        </aside>
+
+        <section class="feed">
+            <h2 style="margin-bottom: 1.5rem; color: var(--gold);"><i class="fa-solid fa-crown"></i> Classement Officiel (All-Time)</h2>
+            
+            <div class="card top-mangas">
+                <ul class="ranking-list">
+                    <li class="ranking-item" style="font-size: 1.2rem; padding: 1.5rem;">
+                        <span class="rank gold" style="font-size: 2rem;">1</span>
+                        <div class="manga-info">
+                            <h3>One Piece</h3>
+                            <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> Toujours le GOAT</span>
+                        </div>
+                    </li>
+                    <li class="ranking-item" style="font-size: 1.2rem; padding: 1.5rem;">
+                        <span class="rank silver" style="font-size: 2rem;">2</span>
+                        <div class="manga-info">
+                            <h3>Jujutsu Kaisen</h3>
+                            <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> Fin légendaire en 2024</span>
+                        </div>
+                    </li>
+                    <li class="ranking-item" style="font-size: 1.2rem; padding: 1.5rem;">
+                        <span class="rank bronze" style="font-size: 2rem;">3</span>
+                        <div class="manga-info">
+                            <h3>Black Clover</h3>
+                            <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> L'arc final est fou</span>
+                        </div>
+                    </li>
+                    <li class="ranking-item" style="font-size: 1.2rem; padding: 1.5rem;">
+                        <span class="rank">4</span>
+                        <div class="manga-info">
+                            <h3>Naruto / Boruto</h3>
+                            <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> Remonte fort grâce à TBV</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
